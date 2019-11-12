@@ -19,7 +19,7 @@ app.use(
   })
 );
 app.use(cors());
-app.use("/cities", require("./routes/cities"));
+app.use("/api/cities", require("./routes/cities"));
 
 app.listen(port, () => {
   console.log("Server is running on " + port + "port");

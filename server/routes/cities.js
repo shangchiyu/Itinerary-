@@ -14,16 +14,19 @@ router.get("/all", (req, res) => {
 });
 router.post("/", (req, res) => {
   const newCity = new cityModel({
-    name: req.body.name,
-    country: req.body.country
+    country: req.body.country,
+    city: req.body.city,
+    img: req.body.img
   });
+  console.log(newCity);
   newCity
     .save()
     .then(city => {
+      console.log(city);
       res.send(city);
     })
     .catch(err => {
-      res.status(500).send("Server error");
+      res.status(500).send("Server error: " + err);
     });
 });
 ``;

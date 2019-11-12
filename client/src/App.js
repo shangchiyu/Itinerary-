@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Landing from "./Landing";
 import Cities from "./Cities";
+
 function App() {
   return (
     <BrowserRouter>
