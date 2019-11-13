@@ -9,7 +9,9 @@ const getData = cities => {
 };
 
 export const getCities = () => {
+  console.log("here");
   return dispatch => {
+    console.log(dispatch);
     axios
       .get("http://localhost:5000/api/cities/all")
       .then(response => {
@@ -17,6 +19,7 @@ export const getCities = () => {
         dispatch(getData(response.data));
       })
       .catch(error => {
+        console.log("error", error);
         //TODO: handle the error when implemented
       });
   };

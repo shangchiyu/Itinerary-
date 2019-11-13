@@ -1,47 +1,149 @@
-// import React from "react";
 import React, { Component } from "react";
-import Logo from "./logo.png";
+// import Logo from "./logo.png";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import browsbutton from "./circled-right-2.png";
-import "materialize-css/dist/css/materialize.min.css";
 
-export default class landing extends Component {
+import { Link } from "react-router-dom";
+import { getCities } from "./store/Actions/cityActions";
+
+import { connect } from "react-redux";
+import { fontFamily } from "@material-ui/system";
+
+class Landing extends Component {
   constructor() {
     super();
-    // this.onClick = this.onClick.bind(this);
+  }
+  componentDidMount() {
+    console.log("this.props", this.props);
+    console.log("getCities", getCities);
+    this.props.getCities();
   }
 
   render() {
     const brows = {
-      width: "20%"
+      width: "40%"
     };
-    const headerBar = {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between"
+    // const headerBar = {
+    //   display: "flex",
+    //   flexDirection: "row",
+    //   justifyContent: "space-between",
+    //   marginLeft: "10px",
+    //   marginRight: "10px",
+    //   marginTop: "10px"
+    // };
+    const intro = {
+      fontSize: "25px",
+      fontFamily: "Courier New",
+      fontStyle: "oblique",
+      fontWeight: "bold",
+      marginTop: "0px",
+      paddingRight: "2px"
     };
+
+    const picture = {
+      width: "90%"
+    };
+    const { cities } = this.props;
+    console.log("cities", cities);
+
     return (
       <div>
-        <div style={headerBar}>
-          <i className="medium material-icons">account_circle</i>
-          <i className="medium material-icons">dehaze</i>
-        </div>
-        <img className="responsive-img" src={Logo} alt="logo" />
+        {/* <div style={headerBar}>
+          <AccountCircle fontSize="large" />
+
+         
+        </div> */}
+
         <div>
-          <p>
-            Find your perfect trip. designed by insiders who know ans love their
-            cities
+          <p style={intro}>
+            "Find your perfect trip. designed by insiders who know and love
+            their cities!"
           </p>
-          <img
-            src={browsbutton}
-            alt="start"
-            className="responsive-img"
-            style={brows}
-            // onClick={}
-          />
+          <Link to="/cities">
+            <img
+              src={browsbutton}
+              alt="start"
+              className="responsive-img"
+              style={brows}
+            />
+          </Link>
         </div>
         <p>Popular MYinteraries</p>
-        <div></div>
+
+        <Carousel
+          additionalTransfrom={0}
+          arrows
+          autoPlay
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className=""
+          containerClass="container-with-dots"
+          dotListClass=""
+          draggable
+          focusOnSelect={false}
+          infinite
+          itemClass=""
+          keyBoardControl
+          minimumTouchDrag={80}
+          renderButtonGroupOutside={false}
+          renderDotsOutside={false}
+          responsive={{
+            desktop: {
+              breakpoint: {
+                max: 3000,
+                min: 1024
+              },
+              items: 3,
+              partialVisibilityGutter: 40
+            },
+            mobile: {
+              breakpoint: {
+                max: 464,
+                min: 0
+              },
+              items: 2,
+              partialVisibilityGutter: 30
+            },
+            tablet: {
+              breakpoint: {
+                max: 1024,
+                min: 464
+              },
+              items: 2,
+              partialVisibilityGutter: 30
+            }
+          }}
+          showDots={false}
+          sliderClass=""
+          slidesToSlide={2}
+          swipeable
+        >
+          {" "}
+          {cities &&
+            cities.map((city, index) => {
+              return (
+                <div>
+                  <img key={index} src={city.img} style={picture}></img>
+                </div>
+              );
+            })}
+        </Carousel>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  console.log(state);
+  return state;
+};
+const mapDispatchToProps = () => {
+  return {
+    getCities: () => getCities()
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Landing); //first is the state, 2 is the dispatch action
