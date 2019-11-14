@@ -11,12 +11,35 @@ class Cities extends Component {
     console.log(this.props);
     const { cities } = this.props;
     console.log("cities", cities);
+    const pic = {
+      width: "70%",
+      objectFit: "cover"
+    };
+    const title = {
+      position: "absolute",
+      color: "white",
+      fontSize: "40px",
+      textShadow: "5px 5px 5px grey",
+      backgroundColor: "rgba(255, 255, 255, 0.4)"
+    };
+    const imgCon = {
+      display: "flex",
+      justifyContent: "center",
+      margin: "10px"
+    };
 
     return (
       <div>
         {cities &&
           cities.map((city, index) => {
-            return <p key={index}>{city.city}</p>;
+            return (
+              <div style={imgCon}>
+                <p key={index} style={title}>
+                  {city.city}
+                </p>
+                <img key={index} src={city.img} style={pic} />
+              </div>
+            );
           })}
       </div>
     );
