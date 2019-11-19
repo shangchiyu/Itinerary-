@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import Logo from "./logo.png";
+
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import browsbutton from "./circled-right-2.png";
@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { getCities } from "./store/Actions/cityActions";
 
 import { connect } from "react-redux";
-import { fontFamily } from "@material-ui/system";
 
 class Landing extends Component {
   constructor() {
@@ -44,31 +43,25 @@ class Landing extends Component {
     const picture = {
       width: "90%"
     };
-    const { cities } = this.props;
+    const { cities } = this.props.cities;
     console.log("cities", cities);
 
     return (
       <div>
-        {/* <div style={headerBar}>
-          <AccountCircle fontSize="large" />
-
-         
-        </div> */}
-
-        <div>
-          <p style={intro}>
-            "Find your perfect trip. designed by insiders who know and love
-            their cities!"
-          </p>
-          <Link to="/cities">
-            <img
-              src={browsbutton}
-              alt="start"
-              className="responsive-img"
-              style={brows}
-            />
-          </Link>
-        </div>
+        {/* <div> */}
+        <p style={intro}>
+          "Find your perfect trip. designed by insiders who know and love their
+          cities!"
+        </p>
+        <Link to="/cities">
+          <img
+            src={browsbutton}
+            alt="start"
+            className="responsive-img"
+            style={brows}
+          />
+        </Link>
+        {/* </div> */}
         <p>Popular MYinteraries</p>
 
         <Carousel
@@ -125,6 +118,7 @@ class Landing extends Component {
               return (
                 <div>
                   <img key={index} src={city.img} style={picture}></img>
+                  <p key={index}>{city.city}</p>
                 </div>
               );
             })}
@@ -137,9 +131,9 @@ const mapStateToProps = state => {
   console.log(state);
   return state;
 };
-const mapDispatchToProps = () => {
+const mapDispatchToProps = dispatch => {
   return {
-    getCities: () => getCities()
+    getCities: () => dispatch(getCities())
   };
 };
 

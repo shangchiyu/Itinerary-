@@ -11,8 +11,8 @@ const getData = cities => {
 export const getCities = () => {
   console.log("here");
   return dispatch => {
-    console.log(dispatch);
-    axios
+    console.log("dispatch", dispatch);
+    return axios
       .get("http://localhost:5000/api/cities/all")
       .then(response => {
         console.log("response", response);
