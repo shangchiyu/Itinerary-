@@ -2,17 +2,40 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCities } from "./store/Actions/cityActions";
-// import Autocomplete from "./Autocomplete";
+
 class Cities extends Component {
-  componentDidMount() {
+  constructor() {
+    super();
+    this.state = {
+      textValue: "",
+      cityFiltered: []
+    };
+    this.onChange.bind(this);
+  }
+  onChange = e => {
+    console.log(e.target.value);
     const { cities } = this.props.cities;
 
+    let cityfilter = cities.filter(city => {
+      return city.city
+        .toUpperCase()
+        .toLowerCase()
+        .includes(e.target.value);
+    });
+    this.setState({ cityFiltered: cityfilter });
+    console.log(cityfilter);
+  };
+
+  componentDidMount() {
+    const { cities } = this.props.cities;
     if (!cities) this.props.getCities(); //prevent fetch again
+    this.setState({ cityFiltered: cities }); //by writing cityFiltered = cities, when the text field is emty, it will display all cities
   }
 
   render() {
     console.log(this.props);
     const { cities } = this.props.cities;
+
     console.log("cities", cities);
     const pic = {
       width: "70%",
@@ -38,19 +61,25 @@ class Cities extends Component {
 
     return (
       <div>
-        {/* <input type="text" placeholder="city" style={input} /> */}
-
+        <input
+          type="text"
+          placeholder="city"
+          list="browsers"
+          style={input}
+          onChange={this.onChange}
+        />
+        <datalist id="browsers"></datalist>
         <div>
-          {cities &&
-            cities.map((city, index) => {
+          {this.state.cityFiltered &&
+            this.state.cityFiltered.map((city, index) => {
               return (
-                <div style={imgCon}>
-                  <Link to={`/${city.city}`}>
-                    <p key={index} style={title}>
-                      {city.city}
-                    </p>
-                    <img key={index} src={city.img} style={pic} alt="img" />
-                  </Link>
+                <div>
+                  <div key={index} style={imgCon}>
+                    <Link to={`/${city.city}`}>
+                      <p style={title}>{city.city}</p>
+                      <img src={city.img} style={pic} alt="img" />
+                    </Link>
+                  </div>
                 </div>
               );
             })}
@@ -62,13 +91,13 @@ class Cities extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     getCities: () => dispatch(getCities())
-    // getCity: () => dispatch(getCity())
   };
 };
 
 const mapStateToProps = state => {
   console.log(state);
-  return state;
+
+  return { cities: state.cities };
 };
 export default connect(
   mapStateToProps,
