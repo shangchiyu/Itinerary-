@@ -23,14 +23,7 @@ class Landing extends Component {
     const brows = {
       width: "40%"
     };
-    // const headerBar = {
-    //   display: "flex",
-    //   flexDirection: "row",
-    //   justifyContent: "space-between",
-    //   marginLeft: "10px",
-    //   marginRight: "10px",
-    //   marginTop: "10px"
-    // };
+
     const intro = {
       fontSize: "25px",
       fontFamily: "Courier New",
@@ -117,8 +110,9 @@ class Landing extends Component {
             cities.map((city, index) => {
               return (
                 <div>
-                  <img key={index} src={city.img} style={picture}></img>
-                  <p key={index}>{city.city}</p>
+                  <Link to={`/${city.city}`}>
+                    <img key={index} src={city.img} style={picture}></img>
+                  </Link>
                 </div>
               );
             })}

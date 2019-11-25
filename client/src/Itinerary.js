@@ -34,6 +34,7 @@ class Itinerary extends Component {
   }
 
   render() {
+    console.log(this.props);
     const data = this.props.itineraries.itinerary;
     const pic = {
       width: "90%",
@@ -49,7 +50,7 @@ class Itinerary extends Component {
                   <img src={city.picture} style={pic}></img>
                   <p>{city.city}</p>
                 </div>
-                <Link to="{/activity/`${city.city}`}">
+                <Link to={`/activity/${city.city}`}>
                   <button>Activity</button>
                 </Link>
               </div>

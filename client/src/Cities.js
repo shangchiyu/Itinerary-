@@ -33,7 +33,7 @@ class Cities extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.props, "city props!!!");
     const { cities } = this.props.cities;
 
     console.log("cities", cities);

@@ -4,6 +4,7 @@ import { Avatar, Grid } from "@material-ui/core";
 import { defualtAvatar } from "./propic.png";
 
 import AddToPhotosRoundedIcon from "@material-ui/icons/AddToPhotosRounded";
+
 export default class signUp extends Component {
   render() {
     const avatar = {
@@ -37,14 +38,16 @@ export default class signUp extends Component {
     };
     return (
       <div style={inputLayout}>
-        <Grid container justify="center" alignItems="center">
-          <Avatar alt="Remy Sharp" src={defualtAvatar} style={avatar} />
-          <AddToPhotosRoundedIcon style={addPic} />
-        </Grid>
-        <input placeholder="username" style={inputStyle} />
-        <input placeholder="password" style={inputStyle} />
-        <input placeholder="e-mail" style={inputStyle} />
-        <Button style={submit}>SUBMIT</Button>
+        <form>
+          <Grid container justify="center" alignItems="center">
+            <Avatar alt="Remy Sharp" src={defualtAvatar} style={avatar} />
+            <AddToPhotosRoundedIcon style={addPic} />
+          </Grid>
+          <input placeholder="username" style={inputStyle} />
+          <input placeholder="password" style={inputStyle} />
+          <input placeholder="e-mail" style={inputStyle} />
+          <Button style={submit}>SUBMIT</Button>
+        </form>
       </div>
     );
   }

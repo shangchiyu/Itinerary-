@@ -9,8 +9,7 @@ const getData = activity => {
   };
 };
 
-export const getItineraries = params => {
-  // console.log("here");
+export const getActivity = params => {
   return dispatch => {
     console.log("dispatch", dispatch);
     return axios

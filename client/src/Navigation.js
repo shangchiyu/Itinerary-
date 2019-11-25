@@ -1,4 +1,5 @@
 import React from "react";
+import SignInCon from "./SignInCon";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -18,10 +19,10 @@ import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
+// import Dialog from "@material-ui/core/Dialog";
+// import DialogActions from "@material-ui/core/DialogActions";
+// import DialogContent from "@material-ui/core/DialogContent";
+// import DialogContentText from "@material-ui/core/DialogContentText";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -92,7 +93,7 @@ export default function Navigation() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [openDialog, setDialog] = React.useState(false);
+  // const [openDialog] = React.useState(false);
   const logLayout = {
     display: "flex",
     marginTop: "100px",
@@ -132,13 +133,13 @@ export default function Navigation() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleClickOpen = () => {
-    setDialog(true);
-  };
+  // const handleClickOpen = () => {
+  //   openDialog(true);
+  // };
 
-  const handleClose = () => {
-    setDialog(false);
-  };
+  // const handleClose = () => {
+  //   setDialog(false);
+  // };
 
   return (
     <div className={classes.root}>
@@ -150,9 +151,7 @@ export default function Navigation() {
         })}
       >
         <Toolbar>
-          <Fab variant="outlined" color="primary" onClick={handleClickOpen}>
-            <AccountCircle />
-          </Fab>
+          <SignInCon />
 
           <img className="logo" src={require("./myLogo.png")} style={logo} />
 
@@ -196,14 +195,14 @@ export default function Navigation() {
         <List>
           <ListItem>
             <Button onClick={handleDrawerClose}>
-              <Link to="./" style={drawerButton}>
+              <Link to="/" style={drawerButton}>
                 Home
               </Link>
             </Button>
           </ListItem>
           <ListItem>
             <Button onClick={handleDrawerClose}>
-              <Link to="./cities" style={drawerButton}>
+              <Link to="/cities" style={drawerButton}>
                 Cities
               </Link>
             </Button>
@@ -211,7 +210,7 @@ export default function Navigation() {
         </List>
         <Divider />
       </Drawer>
-      <Dialog
+      {/* <Dialog
         fullScreen={fullScreen}
         open={openDialog}
         onClose={handleClose}
@@ -247,7 +246,7 @@ export default function Navigation() {
             </DialogActions>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
