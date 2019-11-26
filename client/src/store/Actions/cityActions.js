@@ -24,11 +24,3 @@ export const getCities = () => {
       });
   };
 };
-// axios
-//     .get("http://localhost:5000/api/cities/all")
-//     .then(results => {
-//         console.log(results);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });

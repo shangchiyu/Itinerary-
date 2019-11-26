@@ -2,10 +2,66 @@ import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import { Avatar, Grid } from "@material-ui/core";
 import { defualtAvatar } from "./propic.png";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { registerUser } from './store/Actions/userAction'
 
 import AddToPhotosRoundedIcon from "@material-ui/icons/AddToPhotosRounded";
 
-export default class signUp extends Component {
+class SignUp extends Component {
+  constructor() {
+    super();
+    this.state = {
+        username: '',
+        email: '',
+        password: '',
+         
+        errors: {
+          username: '',
+          email: '',
+        password: '',
+        }
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+}
+
+handleInputChange(e) {
+  console.log(e.target.name)
+    this.setState({
+        [e.target.name]: e.target.value
+    })
+}
+
+handleSubmit(e) {
+    e.preventDefault();
+    console.log('e', e)
+    const user = {
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
+      
+    }
+    this.props.registerUser(user)
+    console.log(user);
+}
+componentWillReceiveProps(nextProps) {
+  if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/')
+  }
+  if(nextProps.errors) {
+      this.setState({
+          errors: nextProps.errors
+      });
+  }
+}
+componentDidMount() {
+  if(this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+  }
+ 
+}
   render() {
     const avatar = {
       width: "90px",
@@ -43,12 +99,39 @@ export default class signUp extends Component {
             <Avatar alt="Remy Sharp" src={defualtAvatar} style={avatar} />
             <AddToPhotosRoundedIcon style={addPic} />
           </Grid>
-          <input placeholder="username" style={inputStyle} />
-          <input placeholder="password" style={inputStyle} />
-          <input placeholder="e-mail" style={inputStyle} />
-          <Button style={submit}>SUBMIT</Button>
+          <input placeholder="username" style={inputStyle} name="username" onChange={ this.handleInputChange}
+                    value={this.state.username} />
+                     {this.state.errors.username && (<div>{this.state.errors.username}</div>)}
+          <input placeholder="password" style={inputStyle} type="password" onChange={ this.handleInputChange }
+                    value={ this.state.password }/>
+                    {this.state.errors.password && (<div>{this.state.errors.password}</div>)}
+          <input placeholder="e-mail" style={inputStyle} onChange={ this.handleInputChange }
+                    value={ this.state.email } />
+                    {this.state.errors.email && (<div>{this.state.errors.email}</div>)}
+        <Button onClick={this.handleSubmit} style={submit}>SUBMIT</Button>
         </form>
       </div>
     );
   }
 }
+SignUp.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+const mapDispatchToProps = dispatch => {
+
+  return {
+    registerUser: (user) => dispatch(registerUser(user))
+  };
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+
+});
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(SignUp))
+// export default {
+//   component: withRouter(connect(mapStateToProps,mapDispatchToProps)(SignUp)),
+  
+// }

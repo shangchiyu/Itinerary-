@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const db = require("./config/keys").mongoURI;
 const mongoose = require("mongoose");
+const passport = require("passport")
 
 mongoose
   .connect(db, { useNewUrlParser: true, useCreateIndex: true })
@@ -19,7 +20,12 @@ app.use(
   })
 );
 app.use(cors());
+require("./passport")
+app.use(passport.initialize());
+
 app.use("/api/cities", require("./routes/cities"));
+app.use('/api/users',require("./routes/users"));
+
 
 app.listen(port, () => {
   console.log("Server is running on " + port + "port");

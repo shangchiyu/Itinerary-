@@ -6,8 +6,7 @@ router.get("/test", (req, res) => {
 const cityModel = require("../model/cityModel");
 const itineraryModel = require("../model/itinerary");
 const activityModel = require("../model/activity");
-// const User = require("../model/user");
-// const bcrypt = require("bcryptjs");
+
 // const gravatar = require("gravatar");
 
 router.get("/all", (req, res) => {
