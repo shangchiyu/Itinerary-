@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from './store/Actions/userAction';
 import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
 
@@ -10,15 +12,20 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 
-export default class SignIn extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // setOpen: false,
-      open: false
+      open: false,
+      email: '',
+      password: '',
+      errors: {}
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClose() {
@@ -31,6 +38,36 @@ export default class SignIn extends Component {
       open: true
     });
   }
+  handleInputChange(e) {
+    this.setState({
+        [e.target.name]: e.target.value
+    })
+}
+
+handleSubmit(e) {
+    e.preventDefault();
+    const user = {
+        email: this.state.email,
+        password: this.state.password,
+    }
+    this.props.loginUser(user);
+ }
+// componentDidMount() {
+//   if(this.props.auth.isAuthenticated) {
+//       this.props.history.push('/');
+//   }
+// }
+
+// componentWillReceiveProps(nextProps) {
+//   if(nextProps.auth.isAuthenticated) {
+//       this.props.history.push('/')
+//   }
+//   if(nextProps.errors) {
+//       this.setState({
+//           errors: nextProps.errors
+//       });
+//   }
+// }
 
   render() {
     const logLayout = {
@@ -64,8 +101,9 @@ export default class SignIn extends Component {
       textDecorationLine: "none"
     };
 
-
+  
     const { open } = this.state;
+  
     return (
       <div>
         <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -86,13 +124,16 @@ export default class SignIn extends Component {
               <DialogContentText>
                 <strong>Sign In:</strong>
                 <div style={medLayout}>
-                  <input placeholder="username" style={inputStyle} />
-                  <input placeholder="password" style={inputStyle} />
+                  <input placeholder="username" style={inputStyle}  name="email" onChange={ this.handleInputChange }
+                    value={ this.state.email }/>
+                  <input placeholder="password" style={inputStyle} name="password"
+                    onChange={ this.handleInputChange }
+                    value={ this.state.password }/>
                 </div>
               </DialogContentText>
 
               <DialogActions style={buttonLayout}>
-                <Button style={signButton} color="primary">
+                <Button style={signButton} color="primary" onClick={this.handleSubmit}>
                   Sign In
                 </Button>
                 <Link to="./SignUp" style={drawerButton}>
@@ -113,3 +154,15 @@ export default class SignIn extends Component {
     );
   }
 }
+SignIn.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+export  default connect(mapStateToProps, { loginUser })(SignIn)

@@ -1,38 +1,60 @@
 const express = require("express");
 const router = express.Router();
-const  userModel = require("../model/user");
+const  User = require("../model/user");
 const bcrypt = require("bcrypt");
-const {validateInput}=require("../ validation/register")
-const loginInput = require('../ validation/login');
+ //const {validateInput}=require("../ validation/register")
+
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+const {check} = require('express-validator');
 
 
-router.post("/", function(req, res) {
-  const { errors, isValid } = validateInput(req.body); //from validtor folder
+router.post("/", 
+// [check('username').custom(username => {
+//   if (value !== req.body.username) {
+//     console.log(req.body.username)
+//     throw new Error('Username is required');
+//   }
+// }),
+//   check('email').custom(value => {
+//         if (value !== req.body.email) {
+//           throw new Error('E-mail is required');
+//         }
+//       })
+//   ,
+//   check('password').custom((value, { req }) => {
+//     if (value !== req.body.password) {
+//       throw new Error('Password is required');
+//     }
+    
+//   }) .isLength({ min: 5 }).withMessage('must be at least 5 chars long')
+// ]
+// ,
+function(req, res) {
+  
 
   console.log('req', req.body)
-  if (!isValid) {
-   return res.status(400).json(errors);
-  }
-  user
+
+  User
     .findOne({
       email: req.body.email
     })
     .then(user => {
       if (user) {
+        console.log(user , "user already exists")
         return res.status(400).json({
+          username:"User already exists",
           email: "Email already exists!"
         });
       } else {
         const newUser = new User({
-          username: req.body.name,
+          username: req.body.username,
           email: req.body.email,
           password: req.body.password
           
         });
-
+console.log('newUser', newUser)
         bcrypt.genSalt(10, (err, salt) => {
           if (err) console.error("There was an error", err);
           else {
@@ -52,20 +74,16 @@ router.post("/", function(req, res) {
 });
 router.post('/login', (req, res) => {
 
-    const { errors, isValid } = loginInput(req.body);
 
-    if(!isValid) {
-        return res.status(400).json(errors);
-    }
-
-    const email = req.body.email;
+   
     const password = req.body.password;
-
-    userModel.findOne({email})
+console.log('user', req.body)
+    User.findOne({email: req.body.email})
         .then(user => {
             if(!user) {
-                errors.email = 'User not found'
-                return res.status(404).json(errors);
+                return res.status(403).json({
+                  email:'E-mail not found'
+                });
             }
             bcrypt.compare(password, user.password)
                     .then(isMatch => {
@@ -75,11 +93,13 @@ router.post('/login', (req, res) => {
                                 username: user.username,
                                 img:user.img
                             }
-                            jwt.sign(payload,key.secretOrKey, {
+                            jwt.sign(payload,"secret", {
                                 expiresIn: 3600
                             }, (err, token) => {
                                 if(err) console.error('There is some error in token', err);
                                 else {
+                                  console.log('success token', token)
+
                                     res.json({
                                         success: true,
                                         token: token
@@ -88,8 +108,8 @@ router.post('/login', (req, res) => {
                             });
                         }
                         else {
-                            errors.password = 'Incorrect Password';
-                            return res.status(400).json(errors);
+                           
+                            return res.status(400).json( 'Incorrect Password');
                         }
                     });
         });
@@ -98,7 +118,7 @@ router.get(
     "/",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-      userModel
+      User
         .findOne({ _id: req.user.id })
         .then(user => {
           res.json(user);

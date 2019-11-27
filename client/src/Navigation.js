@@ -1,5 +1,5 @@
 import React from "react";
-import SignInCon from "./SignInCon";
+import SignIn from "./SignIn";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -151,7 +151,7 @@ export default function Navigation() {
         })}
       >
         <Toolbar>
-          <SignInCon />
+          <SignIn/>
 
           <img className="logo" src={require("./myLogo.png")} style={logo} />
 

@@ -102,11 +102,11 @@ componentDidMount() {
           <input placeholder="username" style={inputStyle} name="username" onChange={ this.handleInputChange}
                     value={this.state.username} />
                      {this.state.errors.username && (<div>{this.state.errors.username}</div>)}
-          <input placeholder="password" style={inputStyle} type="password" onChange={ this.handleInputChange }
+          <input placeholder="password" style={inputStyle} type="password" name="password" onChange={ this.handleInputChange }
                     value={ this.state.password }/>
                     {this.state.errors.password && (<div>{this.state.errors.password}</div>)}
           <input placeholder="e-mail" style={inputStyle} onChange={ this.handleInputChange }
-                    value={ this.state.email } />
+                    value={ this.state.email } name="email"/>
                     {this.state.errors.email && (<div>{this.state.errors.email}</div>)}
         <Button onClick={this.handleSubmit} style={submit}>SUBMIT</Button>
         </form>
