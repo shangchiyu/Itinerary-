@@ -18,7 +18,8 @@ import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import Fab from "@material-ui/core/Fab";
+import { loginUser } from './store/Actions/userAction';
+import Profile from"./Profile"
 // import Dialog from "@material-ui/core/Dialog";
 // import DialogActions from "@material-ui/core/DialogActions";
 // import DialogContent from "@material-ui/core/DialogContent";
@@ -151,8 +152,9 @@ export default function Navigation() {
         })}
       >
         <Toolbar>
-          <SignIn/>
-
+          {!loginUser&& <SignIn/>}
+          {loginUser&& <Profile/>}
+          
           <img className="logo" src={require("./myLogo.png")} style={logo} />
 
           <IconButton

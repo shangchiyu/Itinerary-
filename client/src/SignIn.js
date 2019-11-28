@@ -11,7 +11,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-
+import Profile from"./Profile"
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +26,8 @@ class SignIn extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    
+    // this.disPlayAfter = this.disPlayAfter.bind(this);
   }
 
   handleClose() {
@@ -43,6 +45,11 @@ class SignIn extends Component {
         [e.target.name]: e.target.value
     })
 }
+// disPlayAfter() {
+//   this.setState({
+//     isLoggedin:true
+//   });
+// }
 
 handleSubmit(e) {
     e.preventDefault();
@@ -52,22 +59,22 @@ handleSubmit(e) {
     }
     this.props.loginUser(user);
  }
-// componentDidMount() {
-//   if(this.props.auth.isAuthenticated) {
-//       this.props.history.push('/');
-//   }
-// }
+componentDidMount() {
+  if(this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+  }
+}
 
-// componentWillReceiveProps(nextProps) {
-//   if(nextProps.auth.isAuthenticated) {
-//       this.props.history.push('/')
-//   }
-//   if(nextProps.errors) {
-//       this.setState({
-//           errors: nextProps.errors
-//       });
-//   }
-// }
+componentWillReceiveProps(nextProps) {
+  if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/')
+  }
+  if(nextProps.errors) {
+      this.setState({
+          errors: nextProps.errors
+      });
+  }
+}
 
   render() {
     const logLayout = {
@@ -100,7 +107,12 @@ handleSubmit(e) {
     const drawerButton = {
       textDecorationLine: "none"
     };
-
+const googleButton={
+  border: "2px solid grey",
+  borderRadius: "4px",
+  color:"white",
+  backgroundColor:"purple"
+}
   
     const { open } = this.state;
   
@@ -147,9 +159,13 @@ handleSubmit(e) {
                   </Button>
                 </Link>
               </DialogActions>
+              <Button style={googleButton}>
+                  Login with Google
+                </Button>
             </div>
           </DialogContent>
         </Dialog>
+        
       </div>
     );
   }

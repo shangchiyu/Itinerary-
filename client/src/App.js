@@ -7,7 +7,7 @@ import Navigation from "./Navigation";
 import SignUp from "./SignUp";
 import Itinerary from "./Itinerary";
 import Activity from "./Activity";
-
+import Profile from"./Profile"
 function App() {
   return (
     <BrowserRouter>
@@ -18,8 +18,8 @@ function App() {
           <Route exact path="/cities" component={Cities} />
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/:city" component={Itinerary} />
-
           <Route exact path="/activity/:city" component={Activity} />
+          <Route exact path="/profile" component={Profile} />
         </Switch>
       </div>
     </BrowserRouter>
