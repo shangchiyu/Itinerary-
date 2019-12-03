@@ -1,4 +1,4 @@
-import { SET_USER } from '../Actions/type';
+import { SET_USER ,LOGOUT} from '../Actions/type';
 
 
 const initialState = {
@@ -11,8 +11,14 @@ export default function(state = initialState, action ) {
         case SET_USER:
             return {
                 ...state,
-                isAuthenticated: (action.payload),
+                isAuthenticated: true,
                 user: action.payload
+            }
+            case LOGOUT:
+            return {
+                ...state,
+                isAuthenticated: false,
+                user:{}
             }
         default: 
             return state;

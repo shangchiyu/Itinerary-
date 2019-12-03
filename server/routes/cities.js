@@ -57,6 +57,8 @@ router.get("/activity/:city", (req, res) => {
     })
     .catch(err => console.log(err));
 });
+
+
 // router.post("/", function(req, res) {
 //   const { errors, isValid } = registerInput(req.body); //from validtor folder
 

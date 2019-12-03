@@ -34,7 +34,7 @@ handleInputChange(e) {
     })
 }
 
-handleSubmit(e) {
+async handleSubmit(e) {
     e.preventDefault();
     console.log('e', e)
     const user = {
@@ -43,24 +43,25 @@ handleSubmit(e) {
         password: this.state.password,
       
     }
-    this.props.registerUser(user)
+    await this.props.registerUser(user)
     console.log(user);
+    this.props.history.push("/")
 }
-componentWillReceiveProps(nextProps) {
-  if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/')
-  }
-  if(nextProps.errors) {
-      this.setState({
-          errors: nextProps.errors
-      });
-  }
-}
+// componentWillReceiveProps(nextProps) {
+//   if(nextProps.auth.isAuthenticated) {
+//       this.props.history.push('/')
+//   }
+//   if(nextProps.errors) {
+//       this.setState({
+//           errors: nextProps.errors
+//       });
+//   }
+// }
 componentDidMount() {
-  if(this.props.auth.isAuthenticated) {
-      this.props.history.push('/');
-  }
+  if(window.localStorage.getItem('jwtToken')) {
+    this.props.history.push("/")
  
+}
 }
   render() {
     const avatar = {
@@ -114,6 +115,7 @@ componentDidMount() {
     );
   }
 }
+
 SignUp.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired

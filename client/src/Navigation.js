@@ -18,8 +18,8 @@ import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { loginUser } from './store/Actions/userAction';
 import Profile from"./Profile"
+import { connect } from 'react-redux';
 // import Dialog from "@material-ui/core/Dialog";
 // import DialogActions from "@material-ui/core/DialogActions";
 // import DialogContent from "@material-ui/core/DialogContent";
@@ -90,38 +90,14 @@ const logo = {
   marginLeft: "15%"
 };
 
-export default function Navigation() {
+export  default function Navigation() {
+  console.log(localStorage)
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   // const [openDialog] = React.useState(false);
-  const logLayout = {
-    display: "flex",
-    marginTop: "100px",
-    flexDirection: "column",
-    justifyContent: "center"
-  };
-  const medLayout = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  };
-  const inputStyle = {
-    border: "2px solid #F5F3F3",
-    borderRadius: "4px",
-    marginTop: "20px",
-    backgroundColor: "#DCDCDC",
-    height: "30px"
-  };
-  const signButton = {
-    border: "2px solid grey",
-    borderRadius: "4px"
-  };
-  const buttonLayout = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center"
-  };
+
+  
   const drawerButton = {
     textDecorationLine: "none"
   };
@@ -134,14 +110,8 @@ export default function Navigation() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  // const handleClickOpen = () => {
-  //   openDialog(true);
-  // };
 
-  // const handleClose = () => {
-  //   setDialog(false);
-  // };
-
+console.log(localStorage.length)
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -152,8 +122,9 @@ export default function Navigation() {
         })}
       >
         <Toolbar>
-          {!loginUser&& <SignIn/>}
-          {loginUser&& <Profile/>}
+
+          {localStorage.length == 0 && <SignIn/>}
+          {localStorage.length !== 0&& <Profile/>}
           
           <img className="logo" src={require("./myLogo.png")} style={logo} />
 
@@ -212,43 +183,13 @@ export default function Navigation() {
         </List>
         <Divider />
       </Drawer>
-      {/* <Dialog
-        fullScreen={fullScreen}
-        open={openDialog}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogContent>
-          <Button autoFocus onClick={handleClose} color="primary">
-            {"< Back"}
-          </Button>
-          <div style={logLayout}>
-            <DialogContentText>
-              <strong>Sign In:</strong>
-              <div style={medLayout}>
-                <input placeholder="username" style={inputStyle} />
-                <input placeholder="password" style={inputStyle} />
-              </div>
-            </DialogContentText>
-
-            <DialogActions style={buttonLayout}>
-              <Button style={signButton} color="primary">
-                Sign In
-              </Button>
-              <Link to="./SignUp" style={drawerButton}>
-                <Button
-                  style={signButton}
-                  color="primary"
-                  onClick={handleClose}
-                  autoFocus
-                >
-                  Sign up
-                </Button>
-              </Link>
-            </DialogActions>
-          </div>
-        </DialogContent>
-      </Dialog> */}
+      
     </div>
   );
 }
+
+// const mapStateToProps = (state) => ({
+//   auth: state.auth
+// })
+
+// export  default connect(mapStateToProps,mapDispatchToProps )(withRouter(Navigation))

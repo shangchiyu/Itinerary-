@@ -9,8 +9,13 @@ const activitySchema = new mongoose.Schema({
   food: {
     type: String
   },
-
   attraction: {
+    type: String
+  },
+  img: {
+    type: String
+  },
+  ticket: {
     type: String
   }
 });

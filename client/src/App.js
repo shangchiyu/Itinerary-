@@ -5,10 +5,12 @@ import Landing from "./Landing";
 import Cities from "./Cities";
 import Navigation from "./Navigation";
 import SignUp from "./SignUp";
+
 import Itinerary from "./Itinerary";
 import Activity from "./Activity";
 import Profile from"./Profile"
 function App() {
+  console.log(localStorage,"locallllllll")
   return (
     <BrowserRouter>
       <div className="App">

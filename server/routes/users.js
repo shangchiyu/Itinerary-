@@ -53,7 +53,7 @@ function(req, res) {
           email: req.body.email,
           password: req.body.password
           
-        });
+        });//In order to redirect to Login status, this function also needs token
 console.log('newUser', newUser)
         bcrypt.genSalt(10, (err, salt) => {
           if (err) console.error("There was an error", err);
@@ -126,5 +126,17 @@ router.get(
         .catch(err => res.status(404).json({ error: "User does not exist!" }));
     }
   );
+  router.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["email"] })
+  );
+  router.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: "/", session: false  }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+     
+      res.redirect("http://localhost:3000" + req.user.token);
+    
+  });
 
 module.exports = router;

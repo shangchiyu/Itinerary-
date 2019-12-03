@@ -14,6 +14,9 @@ const UserSchema = new Schema({
   },
   img: {
     type: String
+  },
+  favourite :{
+    type: String
   }
 });
 module.exports = mongoose.model("user", UserSchema);

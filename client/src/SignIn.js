@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { loginUser } from './store/Actions/userAction';
 import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
-
+import { withRouter } from 'react-router-dom';
 import Fab from "@material-ui/core/Fab";
 import { Link } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,6 +12,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Profile from"./Profile"
+
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -20,14 +21,16 @@ class SignIn extends Component {
       open: false,
       email: '',
       password: '',
-      errors: {}
+      errors: {
+        username: '',
+        email: '',
+      password: '',
+      }
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
-    // this.disPlayAfter = this.disPlayAfter.bind(this);
   }
 
   handleClose() {
@@ -45,38 +48,31 @@ class SignIn extends Component {
         [e.target.name]: e.target.value
     })
 }
-// disPlayAfter() {
-//   this.setState({
-//     isLoggedin:true
-//   });
-// }
 
-handleSubmit(e) {
+async handleSubmit(e) {
     e.preventDefault();
     const user = {
         email: this.state.email,
         password: this.state.password,
     }
-    this.props.loginUser(user);
+    await this.props.loginUser(user);
+    
  }
-componentDidMount() {
-  if(this.props.auth.isAuthenticated) {
-      this.props.history.push('/');
-  }
-}
 
-componentWillReceiveProps(nextProps) {
-  if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/')
-  }
-  if(nextProps.errors) {
-      this.setState({
-          errors: nextProps.errors
-      });
-  }
-}
+
+// componentWillReceiveProps(nextProps) {
+//   if(nextProps.auth.isAuthenticated) {
+//     // this.props.history.push('/')
+//   }
+//   if(nextProps.errors) {
+//       this.setState({
+//           errors: nextProps.errors
+//       });
+//   }
+// }
 
   render() {
+    
     const logLayout = {
       display: "flex",
       marginTop: "100px",
@@ -107,15 +103,22 @@ componentWillReceiveProps(nextProps) {
     const drawerButton = {
       textDecorationLine: "none"
     };
-const googleButton={
-  border: "2px solid grey",
-  borderRadius: "4px",
-  color:"white",
-  backgroundColor:"purple"
-}
+// const googleButton={
+//   border: "2px solid grey",
+//   borderRadius: "4px",
+//   color:"white",
+//   backgroundColor:"purple"
+// }
   
     const { open } = this.state;
-  
+  console.log(this.props.auth.user)
+  if(this.props.auth.user){
+    return (
+      <div>
+        <Profile />
+      </div>
+    )
+  }else {
     return (
       <div>
         <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -136,7 +139,7 @@ const googleButton={
               <DialogContentText>
                 <strong>Sign In:</strong>
                 <div style={medLayout}>
-                  <input placeholder="username" style={inputStyle}  name="email" onChange={ this.handleInputChange }
+                  <input placeholder="e-mail" style={inputStyle}  name="email" onChange={ this.handleInputChange }
                     value={ this.state.email }/>
                   <input placeholder="password" style={inputStyle} name="password"
                     onChange={ this.handleInputChange }
@@ -159,9 +162,9 @@ const googleButton={
                   </Button>
                 </Link>
               </DialogActions>
-              <Button style={googleButton}>
+              {/* <Button style={googleButton}>
                   Login with Google
-                </Button>
+                </Button> */}
             </div>
           </DialogContent>
         </Dialog>
@@ -169,16 +172,25 @@ const googleButton={
       </div>
     );
   }
+   
+  }
 }
 SignIn.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  // errors: PropTypes.object.isRequired
 }
+const mapDispatchToProps = dispatch => {
+
+  return {
+    loginUser: (user) => dispatch(loginUser (user))
+  };
+};
+
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors
 })
 
-export  default connect(mapStateToProps, { loginUser })(SignIn)
+export  default connect(mapStateToProps,mapDispatchToProps )(withRouter(SignIn))
