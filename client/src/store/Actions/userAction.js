@@ -35,6 +35,7 @@ export const loginUser = (user) => async(dispatch) => {
                 const { token } = res.data;
               console.log('token', token)
                localStorage.setItem('jwtToken', token);
+           
                setAuthToken(token);
                 const decoded = jwt_decode(token);
                 console.log('decoded', decoded)
@@ -48,6 +49,15 @@ export const loginUser = (user) => async(dispatch) => {
                 });
             });
 }
+export const decodeToken = (token) =>  {
+    console.log('decode action')
+    return dispatch => {
+    setAuthToken(token);
+    const decoded = jwt_decode(token);
+    dispatch(setCurrentUser(decoded));  
+    console.log('decoded', decoded)
+    }
+}
 
 export const setCurrentUser = decoded=> {
     return {
@@ -57,12 +67,12 @@ export const setCurrentUser = decoded=> {
     }
 }
 export const logoutUser = () => async(dispatch)=> {
+    
+    // delete localStorage.setAuthToken
+     setAuthToken();
     dispatch({
         type: LOGOUT
-    });   
-    // delete localStorage.setAuthToken
-     setAuthToken(false);
-    dispatch(setCurrentUser({}));
+    });
     localStorage.removeItem('jwtToken')
 
 }

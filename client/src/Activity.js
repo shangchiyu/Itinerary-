@@ -67,16 +67,17 @@ class Activity extends Component {
 
               <div key={index}>
                 <div>
+                {/* <p>{city.city}</p> */}
                 <img src={city.img} style={pic}></img>
-                <p>{city.city}</p>
+                
                 {/* {this.state.like&&<FavoriteBorderIcon/>}
                
                <FavoriteIcon onClick={this.removefavourite}/> */}
-                <Button onClick={this.handleClick} variant="contained" size="medium" color="primary">
+          
+                  <p><strong>{city.attraction}</strong>:  <a href={city.ticket}>Book now</a>    <Button onClick={this.handleClick} variant="contained" size="medium" color="primary">
           {label}</Button>
-        
-                  <p>{city.attraction}</p>
-                  <p><a href={city.ticket}>Book now</a></p>
+        </p>
+                  <p></p>
                 </div>
               </div>
             );

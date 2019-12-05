@@ -10,7 +10,7 @@ import {logoutUser} from "./store/Actions/userAction"
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import Landing from "./Landing"
+import SignIn from'./SignIn'
 
 class Profile extends Component {
     constructor(props) {
@@ -39,112 +39,97 @@ class Profile extends Component {
     async logout(e) {
         e.preventDefault();
        await this.props.logoutUser(this.props.history);
+    //  this.props.history.push('/')
       //  window.location.reload();
+
     }
 
- render(){
-   return(
-     <p>hu</p>
-   )
- }
-    // render() {
-    //     console.log(this.props,"get username!!!!!")
-    //     const data=this.props.users
-    //     const { open } = this.state;
-    //     const logLayout = {
-    //         display: "flex",
-    //         marginTop: "100px",
-    //         flexDirection: "column",
-    //         justifyContent: "center"
-    //       };
-    //       const medLayout = {
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         justifyContent: "center"
-    //       };
-    //       const inputStyle = {
-    //         border: "2px solid #F5F3F3",
-    //         borderRadius: "4px",
-    //         marginTop: "20px",
-    //         backgroundColor: "#DCDCDC",
-    //         height: "30px"
-    //       };
-    //       const signButton = {
-    //         border: "2px solid grey",
-    //         borderRadius: "4px"
-    //       };
-    //       const buttonLayout = {
-    //         display: "flex",
-    //         flexDirection: "row",
-    //         justifyContent: "center"
-    //       };
-    //       const drawerButton = {
-    //         textDecorationLine: "none"
-    //       };
-    //       // if(!this.props.auth.user){
-    //       //   return (
-    //       //     <div>
-    //       //       <Landing />
-    //       //     </div>
-    //       //   )}else{
-    //       return (
+
+    render() {
+        console.log(this.props.auth,"get username!!!!!")
+        const {username} = this.props.auth.user
+        const { open } = this.state;
+        const logLayout = {
+            display: "flex",
+            marginTop: "100px",
+            flexDirection: "column",
+            justifyContent: "center"
+          };
+          const medLayout = {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center"
+          };
+          const inputStyle = {
+            border: "2px solid #F5F3F3",
+            borderRadius: "4px",
+            marginTop: "20px",
+            backgroundColor: "#DCDCDC",
+            height: "30px"
+          };
+          const signButton = {
+            border: "2px solid grey",
+            borderRadius: "4px"
+          };
+          const buttonLayout = {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center"
+          };
+          const drawerButton = {
+            textDecorationLine: "none"
+          };
+       
+          return (
            
-    //             <div>
+                <div>
                     
-    //             <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
-    //           <AccountCircle />
-    //         </Fab>
-    //         <Dialog
-    //           fullScreen
-    //           open={open}
-    //           onClose={this.handleClose}
-    //           aria-labelledby="responsive-dialog-title"
-    //         >
-    //           <DialogContent>
-    //             <Button autoFocus onClick={this.handleClose} color="primary">
-    //               {"< Back"}
-    //             </Button>
-    //             <div style={logLayout}>
-    //               <DialogContentText>
-    //                 <strong>Hello!</strong>
-    //                 <div style={medLayout}>
-    //                 <div>
-    //         {data &&
-    //           data.map((user, index) => {
-    //             return (
-    //               <div>
-    //                 <div key={index}>
-                    
-    //                   <p>{user.username}</p>
-    //                 </div>
-                    
-    //               </div>
-    //             );
-    //           })}
-    //       </div>
-    //                   {/* <input placeholder="about" style={inputStyle} name="about"
-    //                    /> */}
-    
-    //                 </div>
-    //               </DialogContentText>
-    
-    //               <DialogActions style={buttonLayout}>
-    //                 <Button style={signButton} color="primary" onClick={ this.logout}>
-    //                   Sign Out
-    //                 </Button>
-                 
-    //               </DialogActions>
-                  
-    //             </div>
-    //           </DialogContent>
-    //         </Dialog>
+                <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
+              <AccountCircle />
+            </Fab>
+            <Dialog
+              fullScreen
+              open={open}
+              onClose={this.handleClose}
+              aria-labelledby="responsive-dialog-title"
+            >
+              <DialogContent>
+                <Button autoFocus onClick={this.handleClose} color="primary">
+                  {"< Back"}
+                </Button>
+                <div style={logLayout}>
+                  <DialogContentText>
+                    <strong>Hello!</strong>
+                    <div style={medLayout}>
+                    <div>
             
-    //             </div>
-    //         )
+                      <p>{username}</p>
+                    
+       
+          </div>
+                      {/* <input placeholder="about" style={inputStyle} name="about"
+                       /> */}
+    
+                    </div>
+                  </DialogContentText>
+    
+                  <DialogActions style={buttonLayout}>
+                    <Button style={signButton} color="primary" onClick={ this.logout}>
+                      Sign Out
+                    </Button>
+                 
+                  </DialogActions>
+                  
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+                </div>
+            )
             
           
-       
-    // }
+                      // }
+    }
 }
 Profile.propTypes = {
     logoutUser: PropTypes.func.isRequired,
@@ -160,7 +145,7 @@ const mapDispatchToProps = dispatch => {
   
 
 const mapStateToProps = (state) => ({
-    auth: state
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Profile));

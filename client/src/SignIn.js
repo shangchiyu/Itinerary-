@@ -111,14 +111,14 @@ async handleSubmit(e) {
 // }
   
     const { open } = this.state;
-  console.log(this.props.auth.user)
-  if(this.props.auth.user){
-    return (
-      <div>
-        <Profile />
-      </div>
-    )
-  }else {
+  console.log(this.props.auth.user,"AUTH PROPS")
+  // if(this.props.auth.user){
+  //   return (
+  //     <div>
+  //       <Profile />
+  //     </div>
+  //   )
+  // }else if(!this.props.auth.user){
     return (
       <div>
         <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -173,7 +173,7 @@ async handleSubmit(e) {
     );
   }
    
-  }
+  // }
 }
 SignIn.propTypes = {
   loginUser: PropTypes.func.isRequired,

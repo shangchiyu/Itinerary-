@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 import SignIn from "./SignIn";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -19,13 +19,17 @@ import Button from "@material-ui/core/Button";
 import { AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Profile from"./Profile"
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { logoutUser , decodeToken} from './store/Actions/userAction';
+import { withRouter } from 'react-router-dom';
 // import Dialog from "@material-ui/core/Dialog";
 // import DialogActions from "@material-ui/core/DialogActions";
 // import DialogContent from "@material-ui/core/DialogContent";
 // import DialogContentText from "@material-ui/core/DialogContentText";
 
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+
 
 const drawerWidth = "250px";
 
@@ -89,19 +93,25 @@ const logo = {
   marginRight: "15%",
   marginLeft: "15%"
 };
-
-export  default function Navigation() {
+function Navigation(props) {
   console.log(localStorage)
+const {decodeToken} = props  // console.log('this.props', auth)
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   // const [openDialog] = React.useState(false);
 
-  
+  useEffect(() => {//this works as same as componentDimount
+if(!isAuthenticated && localStorage.length !==0){
+  console.log(localStorage)
+  decodeToken(localStorage.jwtToken)
+}
+  }, [])
   const drawerButton = {
     textDecorationLine: "none"
   };
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,8 +121,12 @@ export  default function Navigation() {
     setOpen(false);
   };
 
-console.log(localStorage.length)
+  const {isAuthenticated} = props.auth;
+
+  // console.log("AUTH", props.auth, isAuthenticated)
+
   return (
+    
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -122,10 +136,10 @@ console.log(localStorage.length)
         })}
       >
         <Toolbar>
-
-          {localStorage.length == 0 && <SignIn/>}
-          {localStorage.length !== 0&& <Profile/>}
-          
+{isAuthenticated ? <Profile/>: <SignIn/>}
+          {/* {loginUser&& <SignIn/>}
+         {logoutUser&& <Profile/>}  */}
+           {/* <SignIn/> */}
           <img className="logo" src={require("./myLogo.png")} style={logo} />
 
           <IconButton
@@ -187,9 +201,23 @@ console.log(localStorage.length)
     </div>
   );
 }
+Navigation.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  decodeToken: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+}
+const mapDispatchToProps = dispatch => {
 
-// const mapStateToProps = (state) => ({
-//   auth: state.auth
-// })
+  return {
+      logoutUser: () => dispatch(logoutUser ()),
+      decodeToken: (token) => dispatch(decodeToken(token))
 
-// export  default connect(mapStateToProps,mapDispatchToProps )(withRouter(Navigation))
+     
+  };
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+export  default connect(mapStateToProps,mapDispatchToProps)(withRouter(Navigation))

@@ -8,35 +8,44 @@ class Cities extends Component {
     super();
     this.state = {
       textValue: "",
-      cityFiltered: []
     };
     this.onChange.bind(this);
   }
+
   onChange = e => {
     console.log(e.target.value);
-    const { cities } = this.props.cities;
+    this.setState({textValue : e.target.value})
 
-    let cityfilter = cities.filter(city => {
-      return city.city
-        .toUpperCase()
-        .toLowerCase()
-        .includes(e.target.value);
-    });
-    this.setState({ cityFiltered: cityfilter });
-    console.log(cityfilter);
   };
-
+filterCities = () => {
+  const { cities } = this.props.cities;
+  console.log('cities', cities)
+if(cities){
+   let cityfilter = cities.filter(city => {
+    return city.city
+      .toLowerCase()
+      .includes(this.state.textValue.toLowerCase());
+  });
+  console.log(cityfilter);
+  return cityfilter
+}
+ 
+}
   componentDidMount() {
-    const { cities } = this.props.cities;
-    if (!cities) this.props.getCities(); //prevent fetch again
+    console.log('this.props', this.props)
+    const cities  = this.props.cities;
+    console.log('cities', cities)
+    if (cities.length == 0) this.props.getCities(); //prevent fetch again
     this.setState({ cityFiltered: cities }); //by writing cityFiltered = cities, when the text field is emty, it will display all cities
   }
 
   render() {
     console.log(this.props, "city props!!!");
-    const { cities } = this.props.cities;
 
-    console.log("cities", cities);
+    let cityFiltered = this.filterCities()
+
+    
+
     const pic = {
       width: "70%",
       objectFit: "cover"
@@ -70,8 +79,8 @@ class Cities extends Component {
         />
         <datalist id="browsers"></datalist>
         <div>
-          {this.state.cityFiltered &&
-            this.state.cityFiltered.map((city, index) => {
+          {cityFiltered &&
+            cityFiltered.map((city, index) => {
               return (
                 <div>
                   <div key={index} style={imgCon}>
