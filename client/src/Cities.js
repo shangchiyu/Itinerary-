@@ -8,8 +8,10 @@ class Cities extends Component {
     super();
     this.state = {
       textValue: "",
+      
     };
     this.onChange.bind(this);
+    
   }
 
   onChange = e => {
@@ -17,6 +19,7 @@ class Cities extends Component {
     this.setState({textValue : e.target.value})
 
   };
+ 
 filterCities = () => {
   const { cities } = this.props.cities;
   console.log('cities', cities)
@@ -56,12 +59,15 @@ if(cities){
       fontSize: "40px",
       textShadow: "5px 5px 5px grey",
       backgroundColor: "rgba(255, 255, 255, 0.4)",
-      marginLeft: "50px"
-    };
+      marginLeft: "25%"
+    }
+   
+
     const imgCon = {
       display: "flex",
       justifyContent: "center",
-      flexDirection: "column"
+      flexDirection: "column",
+      
     };
     const input = {
       marginBottom: "5px",
@@ -85,7 +91,9 @@ if(cities){
                 <div>
                   <div key={index} style={imgCon}>
                     <Link to={`/${city.city}`}>
+                    <div>
                       <p style={title}>{city.city}</p>
+                      </div>
                       <img src={city.img} style={pic} alt="img" />
                     </Link>
                   </div>

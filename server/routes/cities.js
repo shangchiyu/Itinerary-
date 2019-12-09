@@ -6,7 +6,7 @@ router.get("/test", (req, res) => {
 const cityModel = require("../model/cityModel");
 const itineraryModel = require("../model/itinerary");
 const activityModel = require("../model/activity");
-
+const userModel= require("../model/user")
 // const gravatar = require("gravatar");
 
 router.get("/all", (req, res) => {
@@ -57,52 +57,31 @@ router.get("/activity/:city", (req, res) => {
     })
     .catch(err => console.log(err));
 });
-
-
-// router.post("/", function(req, res) {
-//   const { errors, isValid } = registerInput(req.body); //from validtor folder
-
-//   if (!isValid) {
-//     return res.status(400).json(errors);
-//   }
-//   user
-//     .findOne({
-//       email: req.body.email
+//  router.get("/activity/:city/:username/comment",
+ 
+//   (req, res) => {
+//     const userRequested = req.params.username;
+//     let cityRequested = req.params.city;
+//     userModel.findOne({
+//       username: userRequested,
+//       city: cityRequested
 //     })
-//     .then(user => {
-//       if (user) {
-//         return res.status(400).json({
-//           email: "Email already exists!"
-//         });
-//       } else {
-//         const img = gravatar.url(req.body.email, {
-//           s: "200",
-//           r: "pg",
-//           d: "mm"
-//         });
-//         const newUser = new User({
-//           username: req.body.name,
-//           email: req.body.email,
-//           password: req.body.password,
-//           img
-//         });
+//       .then(res => {
+//         return res.status(200).send(res.comments);
+//       })
+//       .catch(err => res.status(500).send("error"))
+//   }
+// )
 
-//         bcrypt.genSalt(10, (err, salt) => {
-//           if (err) console.error("There was an error", err);
-//           else {
-//             bcrypt.hash(newUser.password, salt, (err, hash) => {
-//               if (err) console.error("There was an error", err);
-//               else {
-//                 newUser.password = hash;
-//                 newUser.save().then(user => {
-//                   res.json(user);
-//                 });
-//               }
-//             });
-//           }
-//         });
-//       }
-//     });
-// });
+// router.post("/activity/:city/:username/comment",
+//   passport.authenticate("jwt", { session: false}),
+//   async (req, res) => {
+//     
+//   }
+// )
+
+
+
+
 
 module.exports = router;

@@ -141,7 +141,7 @@ async handleSubmit(e) {
                 <div style={medLayout}>
                   <input placeholder="e-mail" style={inputStyle}  name="email" onChange={ this.handleInputChange }
                     value={ this.state.email }/>
-                  <input placeholder="password" style={inputStyle} name="password"
+                  <input placeholder="password" type="password" style={inputStyle} name="password"
                     onChange={ this.handleInputChange }
                     value={ this.state.password }/>
                 </div>

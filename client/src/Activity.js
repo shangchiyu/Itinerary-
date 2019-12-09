@@ -4,34 +4,36 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { getActivity } from "./store/Actions/activityActions";
 import Button from "@material-ui/core/Button";
+
 class Activity extends Component {
   constructor(props) {
     super(props);
     this.state = {
       city: [],
-      liked: false
+      liked: false,
+      mapVisible:false
     };
     this.handleClick = this.handleClick.bind(this);
     // this.removefavourite=this.removefavourite.bind(this);
+    this.showMap=this.showMap.bind(this);
+    this.closeMap=this.closeMap.bind(this);
   }
   handleClick() {
     this.setState({
       liked: !this.state.liked
     });
   }
-//   async handleSubmit(e) {
-//     e.preventDefault();
-//     console.log('e', e)
-//     const user = {
-//         username: this.state.username,
-//         email: this.state.email,
-//         password: this.state.password,
-      
-//     }
-//     await this.props.registerUser(user)
-//     console.log(user);
-//     this.props.history.push("/")
-// }
+  closeMap() {
+    this.setState({
+      mapVisible: false
+    });
+  }
+  showMap(){
+    this.setState({
+      mapVisible:true
+  })
+}
+
   componentDidMount() {
     const {
       match: { params }
@@ -56,8 +58,15 @@ class Activity extends Component {
       width: "90%",
       objectFit: "cover"
     };
+    const button= {
+      border: "2px solid grey",
+      borderRadius: "4px",
+      marginLeft: "35%",
+      marginRight: "35%",
+     
+    };
     
-    const label = this.state.liked ? 'Like' :'Unlike'
+    const label = this.state.liked ? 'Unlike' :'Like'
     return (
       <div>
         {data &&
@@ -77,7 +86,9 @@ class Activity extends Component {
                   <p><strong>{city.attraction}</strong>:  <a href={city.ticket}>Book now</a>    <Button onClick={this.handleClick} variant="contained" size="medium" color="primary">
           {label}</Button>
         </p>
-                  <p></p>
+        {!this.state.mapVisible&&<Button style={button} color="primary" onClick={this.showMap}>VIEW MAP</Button>}
+        
+       { this.state.mapVisible &&(<div><Button  color="primary" onClick={this.closeMap}>CLOSE MAP</Button><iframe src={city.iframe}></iframe></div>)}
                 </div>
               </div>
             );

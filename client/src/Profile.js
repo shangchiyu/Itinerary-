@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AccountCircle } from "@material-ui/icons";
+import Avatar from '@material-ui/core/Avatar';
 import Fab from "@material-ui/core/Fab";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,20 +10,24 @@ import {logoutUser} from "./store/Actions/userAction"
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import SignIn from'./SignIn'
+import { registerUser } from './store/Actions/userAction'
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          
-          open: false
+          img:'',
+          open: false,
+          upload:false,
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
          this.logout = this.logout.bind(this);
-        
+         this.handleInputChange = this.handleInputChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    this.uploaderVisible=this.uploaderVisible.bind(this);
+    this.uploaderClose=this.uploaderClose.bind(this);
       }
     handleClose() {
         this.setState({
@@ -35,6 +39,35 @@ class Profile extends Component {
           open: true
         });
       }
+      handleInputChange(e) {
+        console.log(e.target.name)
+          this.setState({
+              [e.target.name]: e.target.value
+          })
+      }
+      uploaderVisible(){
+        this.setState({
+         upload:true
+      })
+      }
+      uploaderClose(){
+        this.setState({
+         upload:false
+      })
+      }
+      async handleSubmit(e) {
+        e.preventDefault();
+        console.log('e', e)
+        const user = {
+            // username: this.state.username,
+            // email: this.state.email,
+            // password: this.state.password,
+          img:this.state.img
+        }
+        await this.props.registerUser(user)
+        console.log(user);
+        this.props.history.push("/")
+    }
 
     async logout(e) {
         e.preventDefault();
@@ -47,11 +80,12 @@ class Profile extends Component {
 
     render() {
         console.log(this.props.auth,"get username!!!!!")
-        const {username} = this.props.auth.user
+        const {username,img} = this.props.auth.user
+       
         const { open } = this.state;
         const logLayout = {
             display: "flex",
-            marginTop: "100px",
+            marginTop: "50px",
             flexDirection: "column",
             justifyContent: "center"
           };
@@ -59,6 +93,10 @@ class Profile extends Component {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center"
+          };
+          const avatar = {
+            width: "90px",
+            height: "90px"
           };
           const inputStyle = {
             border: "2px solid #F5F3F3",
@@ -69,24 +107,34 @@ class Profile extends Component {
           };
           const signButton = {
             border: "2px solid grey",
-            borderRadius: "4px"
+            borderRadius: "4px",
           };
           const buttonLayout = {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center"
           };
-          const drawerButton = {
-            textDecorationLine: "none"
+          const uploadButton={
+           fontSize:"10px",
+            marginLeft: "3px",
+            border: "2px solid grey",
+            borderRadius: "2px",
+            paddingBottom:"5px"
+          }
+          const avaLayout = {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            marginLeft: "35%",
+           
           };
+    
        
           return (
            
                 <div>
                     
-                <Fab variant="outlined" color="primary" onClick={this.handleClickOpen}>
-              <AccountCircle />
-            </Fab>
+            <Avatar src={img}  onClick={this.handleClickOpen}/>
             <Dialog
               fullScreen
               open={open}
@@ -99,12 +147,19 @@ class Profile extends Component {
                 </Button>
                 <div style={logLayout}>
                   <DialogContentText>
-                    <strong>Hello!</strong>
-                    <div style={medLayout}>
-                    <div>
+                  <div style={medLayout}>
+                  <div style={avaLayout}><Avatar src={img} style={avatar}/> <strong>Hello!{username}</strong></div>
+                  {this.state.upload &&
+                  (<div>
+                  <input type="text"  placeholder="Enter image link" onChange={this.handleInputChange} name="img" style={inputStyle}/>
+                  <Button onClick={this.handleSubmit} color="primary" style={uploadButton}>SUBMIT</Button>
+                  <Button onClick={this.uploaderClose} style={uploadButton}>CANCEL</Button>
+                  </div>
+                  )} 
+                  
+                   
+                    <div>                  
             
-                      <p>{username}</p>
-                    
        
           </div>
                       {/* <input placeholder="about" style={inputStyle} name="about"
@@ -114,10 +169,13 @@ class Profile extends Component {
                   </DialogContentText>
     
                   <DialogActions style={buttonLayout}>
+                  <Button style={signButton} color="primary" onClick={this.uploaderVisible}>
+                      Change Photo
+                    </Button>
                     <Button style={signButton} color="primary" onClick={ this.logout}>
                       Sign Out
                     </Button>
-                 
+      
                   </DialogActions>
                   
                 </div>
@@ -139,7 +197,7 @@ const mapDispatchToProps = dispatch => {
 
     return {
         logoutUser: () => dispatch(logoutUser ()),
-       
+        registerUser: (user) => dispatch(registerUser(user))
     };
   };
   

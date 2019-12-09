@@ -51,8 +51,8 @@ function(req, res) {
         const newUser = new User({
           username: req.body.username,
           email: req.body.email,
-          password: req.body.password
-          
+          password: req.body.password,
+          img:req.body.img
         });//In order to redirect to Login status, this function also needs token
 console.log('newUser', newUser)
         bcrypt.genSalt(10, (err, salt) => {
@@ -91,7 +91,7 @@ console.log('user', req.body)
                             const payload = {
                                 id: user.id,
                                 username: user.username,
-                                img:user.img
+                                img: user.img
                             }
                             jwt.sign(payload,"secret", {
                                 expiresIn: 3600

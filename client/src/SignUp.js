@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { registerUser } from './store/Actions/userAction'
-
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddToPhotosRoundedIcon from "@material-ui/icons/AddToPhotosRounded";
 
 class SignUp extends Component {
@@ -16,23 +17,39 @@ class SignUp extends Component {
         username: '',
         email: '',
         password: '',
-         
+        img:'',
+         upload:false,
         errors: {
           username: '',
           email: '',
         password: '',
+        img:''
         }
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.uploaderVisible=this.uploaderVisible.bind(this);
+}
+uploaderVisible(){
+  this.setState({
+   upload:true
+})
 }
 
+uploadSubmit(){
+  
+  this.setState({
+    upload:false,
+   
+ })
+}
 handleInputChange(e) {
   console.log(e.target.name)
     this.setState({
         [e.target.name]: e.target.value
     })
 }
+
 
 async handleSubmit(e) {
     e.preventDefault();
@@ -41,12 +58,13 @@ async handleSubmit(e) {
         username: this.state.username,
         email: this.state.email,
         password: this.state.password,
-      
+      img:this.state.img
     }
     await this.props.registerUser(user)
     console.log(user);
     this.props.history.push("/")
 }
+
 // componentWillReceiveProps(nextProps) {
 //   if(nextProps.auth.isAuthenticated) {
 //       this.props.history.push('/')
@@ -68,11 +86,7 @@ componentDidMount() {
       width: "90px",
       height: "90px"
     };
-    const addPic = {
-      position: "absolute",
-      marginLeft: "30px",
-      marginTop: "30px"
-    };
+
     const inputStyle = {
       border: "2px solid #F5F3F3",
       borderRadius: "4px",
@@ -93,13 +107,38 @@ componentDidMount() {
       marginRight: "35%",
       marginTop: "10%"
     };
+    const uploadButton={
+      border: "2px solid grey",
+      borderRadius: "4px",
+      marginLeft: "5%",
+      marginRight: "5%",
+      marginTop: "5%",
+      fontSize:"9px"
+    }
+    const file={
+      marginLeft: "20%",
+     
+    }
+
     return (
       <div style={inputLayout}>
         <form>
           <Grid container justify="center" alignItems="center">
-            <Avatar alt="Remy Sharp" src={defualtAvatar} style={avatar} />
-            <AddToPhotosRoundedIcon style={addPic} />
+            {/* <Avatar alt="Remy Sharp"  style={avatar} /> */}
+            {/* {this.state.upload&& ( */}
+            {/* )} */}
+            {!this.state.img? <AccountCircleIcon style={avatar} onClick={this.uploaderVisible}/>
+:
+      <Avatar alt="Remy Sharp" src={this.state.img}  style={avatar}/>}
           </Grid>
+          {this.state.upload &&(<div>
+          <input type="file" style={file} value={this.state.img} />
+          <Button variant="raised" component="span" style={uploadButton} name="uploaded image" onClick={this.uploadSubmit}> 
+          Upload profile picture
+        </Button>
+        </div>
+        )
+          }
           <input placeholder="username" style={inputStyle} name="username" onChange={ this.handleInputChange}
                     value={this.state.username} />
                      {this.state.errors.username && (<div>{this.state.errors.username}</div>)}
@@ -109,8 +148,12 @@ componentDidMount() {
           <input placeholder="e-mail" style={inputStyle} onChange={ this.handleInputChange }
                     value={ this.state.email } name="email"/>
                     {this.state.errors.email && (<div>{this.state.errors.email}</div>)}
+       <input type="text"  placeholder="profile image link" onChange={this.handleInputChange} name="img" style={inputStyle}/>
+      
+       
         <Button onClick={this.handleSubmit} style={submit}>SUBMIT</Button>
         </form>
+        
       </div>
     );
   }

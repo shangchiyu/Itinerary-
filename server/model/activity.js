@@ -17,6 +17,17 @@ const activitySchema = new mongoose.Schema({
   },
   ticket: {
     type: String
+  },
+  comment:[{
+    body: {
+      type: String,
+      
+    },username: {
+      type: String
+    }
+  }],
+  iframe:{
+    type: String
   }
 });
 

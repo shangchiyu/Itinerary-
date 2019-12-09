@@ -12,7 +12,15 @@ const itinerarySchema = new mongoose.Schema({
 
   city: {
     type: String
-  }
+  },
+  comment:[{
+    body: {
+      type: String,
+      
+    },username: {
+      type: String
+    }
+  }],
 });
 
 module.exports = mongoose.model("itinerary", itinerarySchema);
