@@ -8,7 +8,7 @@ const getData = activity => {
     payload: activity
   };
 };
-
+///git 
 export const getActivity = params => {
   return dispatch => {
     console.log("dispatch", dispatch);
@@ -21,6 +21,6 @@ export const getActivity = params => {
       .catch(error => {
         console.log("error", error);
         //TODO: handle the error when implemented
-      });
+      })
   };
 };
