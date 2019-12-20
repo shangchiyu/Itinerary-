@@ -16,4 +16,24 @@ foo.comment.push(action.payload)
        return{...state}
   }
 };
+// const cart = (state, action) => {
+//   switch(action.type){
+//     case 'QTY_UP':
+//       return Object.assign([], state.map(item => {
+//         if(item.id === action.id){
+//           item.quantity += action.up;
+//         }
+//         return item;
+//       ));
+//     case 'QTY_DOWN':
+//       return Object.assign([], state.map(item => {
+//         if(item.id === action.id){
+//           item.quantity -= action.down;
+//         }
+//         return item;
+//       ));
+//      default:
+//        return state;
+//    }
+// };
 export default itineraryReducer;

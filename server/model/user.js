@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     type: String
   },
   favourite :{
-    type: Array
+    type: [String]
   }
 });
 module.exports = mongoose.model("user", UserSchema);

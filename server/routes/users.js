@@ -46,7 +46,7 @@ function(req, res) {
         return res.status(400).json({
           username:"User already exists",
           email: "Email already exists!"
-        });
+        }); 
       } else {
         const newUser = new User({
           username: req.body.username,

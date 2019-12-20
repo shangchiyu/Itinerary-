@@ -76,3 +76,18 @@ export const logoutUser = () => async(dispatch)=> {
     localStorage.removeItem('jwtToken')
 
 }
+// if (contains(currentSelection, favorites)) {
+//     const newFavorite = reject(equals(currentSelection), favorites);
+//     await axios(`http://localhost:5000/deletefavorite?user_id=1&selection_id=${currentSelection}`);
+//     dispatch({
+//         type: SET_FAVORITE,
+//         payload: newFavorite
+//     });
+// } else {
+//     const newFavorite = append(currentSelection, favorites)
+//     await axios(`http://localhost:5000/addfavorite?user_id=1&selection_id=${currentSelection}`);
+//     dispatch({
+//         type: SET_FAVORITE,
+//         payload: newFavorite
+//     });
+// }

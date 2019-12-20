@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+
 import { getActivity } from "./store/Actions/activityActions";
 import Button from "@material-ui/core/Button";
 

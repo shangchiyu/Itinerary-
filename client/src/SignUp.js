@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import { Avatar, Grid } from "@material-ui/core";
-import { defualtAvatar } from "./propic.png";
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { registerUser } from './store/Actions/userAction'
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import AddToPhotosRoundedIcon from "@material-ui/icons/AddToPhotosRounded";
+
 
 class SignUp extends Component {
   constructor() {
